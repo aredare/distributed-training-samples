@@ -56,4 +56,80 @@ spec:
                   nvidia.com/gpu: 1
                   cpu: "4"
                   memory: "16Gi"
+```markdown
+# Distributed Training with Ray on AWS
+
+This repository provides a collection of examples for running **multi-node distributed training jobs using [Ray](https://docs.ray.io/en/latest/)** within an **AWS environment**. It is intended for ML practitioners and engineers who want to scale training workloads using Kubernetes-based Ray clusters.
+
+> ⚠️ **Note:** This repository does **not** cover infrastructure provisioning (e.g., Amazon EKS cluster setup, IAM roles, networking, etc.). It assumes that the infrastructure has already been provisioned. For each training example, the infrastructure configuration (e.g., instance type, node pool, GPU type) will be specified. Most examples use **NVIDIA T4 GPUs** for cost efficiency, but this may vary.
+
+## Features
+
+- Multi-node training examples using Ray
+- Each training script comes in two versions:
+  - **Standalone** (no tracking or logging)
+  - **MLflow-integrated** (experiment tracking, metrics, artifacts)
+- Example Kubernetes YAML files:
+  - `RayCluster` for deploying Ray head and worker nodes
+  - `RayJob` for submitting distributed training jobs
+
+## 📁 Project Structure
+
+
+ray-aws-distributed-training/
+├── clusters/
+│   └── ray-cluster.yaml            # Example RayCluster YAML for EKS
+├── jobs/
+│   └── ray-job.yaml                # Example RayJob YAML
+├── training/
+│   ├── mnist_train.py             # Standalone version
+│   └── mnist_train_mlflow.py      # MLflow-integrated version
+├── utils/
+│   └── mlflow_setup.py             # Utilities for MLflow tracking
+└── README.md
+
+## 📦 Example RayJob YAML
+
+```yaml
+apiVersion: ray.io/v1
+kind: RayJob
+metadata:
+  name: ray-job-example
+spec:
+  entrypoint: "python /home/ray/samples/training/mnist_train.py"
+  runtimeEnv:
+    workingDir: "https://your-bucket.s3.amazonaws.com/code.zip"
+    pip:
+      - torch
+      - torchvision
+      - mlflow
+  rayClusterConfig:
+    rayClusterName: ray-cluster
+    rayNamespace: default
+    submitterPodTemplate:
+      spec:
+        containers:
+        - name: ray-job-submitter
+          image: rayproject/ray:2.9.0-py39
+          resources:
+            requests:
+              cpu: 1
+              memory: 2Gi
+```
+
+## 🧪 Training Examples
+
+Each training example is available in two flavors:
+
+- `aws/mnist/mnist_train.py`: A basic example using Ray's Train API
+- `aws/minst/mnist_train_mlflow.py`: Same as above, but with integrated MLflow tracking (including experiment name, run ID, metrics, and artifacts)
+
+## 📚 References
+
+- [Ray Documentation](https://docs.ray.io/en/latest/)
+- [MLflow Documentation](https://mlflow.org/docs/latest/index.html)
+- [Amazon EKS](https://docs.aws.amazon.com/eks/)
+- [Kubernetes Ray Operator](https://docs.ray.io/en/latest/cluster/kubernetes/index.html)
+```
+
 
