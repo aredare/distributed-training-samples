@@ -122,7 +122,7 @@ spec:
 Each training example is available in two flavors:
 
 - `aws/mnist/mnist_train.py`: A basic example using Ray's Train API
-- `aws/minst/mnist_train_mlflow.py`: Same as above, but with integrated MLflow tracking (including experiment name, run ID, metrics, and artifacts)
+- `aws/mnist/mnist_train_mlflow.py`: Same as above, but with integrated MLflow tracking (including experiment name, run ID, metrics, and artifacts)
 
 ## 📚 References
 
