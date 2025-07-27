@@ -56,37 +56,27 @@ spec:
                   nvidia.com/gpu: 1
                   cpu: "4"
                   memory: "16Gi"
-```markdown
-# Distributed Training with Ray on AWS
-
-This repository provides a collection of examples for running **multi-node distributed training jobs using [Ray](https://docs.ray.io/en/latest/)** within an **AWS environment**. It is intended for ML practitioners and engineers who want to scale training workloads using Kubernetes-based Ray clusters.
-
-> ⚠️ **Note:** This repository does **not** cover infrastructure provisioning (e.g., Amazon EKS cluster setup, IAM roles, networking, etc.). It assumes that the infrastructure has already been provisioned. For each training example, the infrastructure configuration (e.g., instance type, node pool, GPU type) will be specified. Most examples use **NVIDIA T4 GPUs** for cost efficiency, but this may vary.
-
-## Features
-
-- Multi-node training examples using Ray
-- Each training script comes in two versions:
-  - **Standalone** (no tracking or logging)
-  - **MLflow-integrated** (experiment tracking, metrics, artifacts)
-- Example Kubernetes YAML files:
-  - `RayCluster` for deploying Ray head and worker nodes
-  - `RayJob` for submitting distributed training jobs
+```
 
 ## 📁 Project Structure
 
-
-ray-aws-distributed-training/
-├── clusters/
+```
+aws/
+├── mnist/
 │   └── ray-cluster.yaml            # Example RayCluster YAML for EKS
-├── jobs/
-│   └── ray-job.yaml                # Example RayJob YAML
-├── training/
+|   └── ray-job.yaml                # Example RayJob YAML
 │   ├── mnist_train.py             # Standalone version
 │   └── mnist_train_mlflow.py      # MLflow-integrated version
-├── utils/
-│   └── mlflow_setup.py             # Utilities for MLflow tracking
+├── resnet/
+│   └── ray-cluster.yaml            # Example RayCluster YAML for EKS
+|   └── ray-job.yaml                # Example RayJob YAML
+│   ├── mnist_train.py             # Standalone version
+│   └── mnist_train_mlflow.py      # MLflow-integrated version
+:
+:
+:
 └── README.md
+```
 
 ## 📦 Example RayJob YAML
 
