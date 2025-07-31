@@ -201,11 +201,11 @@ if __name__ == "__main__":
     checkpoint_config = CheckpointConfig(num_to_keep=3)
     run_config = RunConfig(
         name="finetune-resnet",
-        storage_path="INSERT_YOUR_BUCKET_NAME",
+        storage_path="s3://33wcap-distributed-training/ray_experiments/",
         checkpoint_config=checkpoint_config,
     )
 
-    experiment_path = os.path.expanduser("INSERT_YOUR_BUCKET_NAME")
+    experiment_path = os.path.expanduser("s3://33wcap-distributed-training/ray_experiments/finetune-resnet")
     if TorchTrainer.can_restore(experiment_path):
         trainer = TorchTrainer.restore(experiment_path,
             train_loop_per_worker=train_loop_per_worker,
